@@ -13,7 +13,6 @@ public class CalculatorFrame extends JFrame implements ActionListener {
 
     private double finalNumber=0;
     private int numberPressed;
-    private int operationNumber;
 
     public CalculatorFrame() {
         createCalculator();
@@ -109,28 +108,40 @@ public class CalculatorFrame extends JFrame implements ActionListener {
 
             numberPressed=Integer.parseInt(displayNumber);
         }
-        if(numberPressed == 0){
+
+        else if (pressedButton.equals("+") || pressedButton.equals("-") || pressedButton.equals("*") || pressedButton.equals("+/-")) {
+
+
+                displayNumber = "";
+
+
+                if (finalNumber == 0) {
+                    finalNumber = numberPressed;
+                    numberPressed=0;
+                } else if(numberPressed == 0){
+                    //textField.setText(pressedButton);
+                } else {
+                    doMaths();
+                }
             textField.setText(pressedButton);
-        }
+            signPressed = pressedButton;
 
-        else if (pressedButton.equals("+")||pressedButton.equals("-")||pressedButton.equals("*")||pressedButton.equals("+/-")){
-            displayNumber="";
-            signPressed=pressedButton;
-
-
-            if (finalNumber==0){
-                finalNumber=numberPressed;
             }
-            else {
+        else if (pressedButton.equals("=")) {
+
                 doMaths();
-            }
-            textField.setText(pressedButton);
-            }
+                textField.setText(Double.toString(finalNumber));
 
-        else if (pressedButton.equals("=")){
-            doMaths();
-            textField.setText(Double.toString(finalNumber));
+            }
+        else if (pressedButton.equals("CE")){
+            signPressed="";
+            finalNumber=0;
+            numberPressed=0;
+            displayNumber="";
+            textField.setText(displayNumber);
+
         }
+
 
     }
     private void doMaths(){
@@ -143,9 +154,10 @@ public class CalculatorFrame extends JFrame implements ActionListener {
         if (signPressed.equals("*")){
             finalNumber=finalNumber*numberPressed;
         }
-        if (signPressed.equals("*/-")){
+        if (signPressed.equals("+/-")){
             finalNumber=-finalNumber;
         }
+
         numberPressed=0;
     }
 }
